@@ -3,7 +3,7 @@ services:
   # https://www.digitalocean.com/community/tutorials/how-to-set-up-laravel-nginx-and-mysql-with-docker-compose
   #PHP Service
   app:
-#    image: guoxiangke/lms
+#    image: guoxiangke/raz
     links:
       - db:mysql
 #      - redis
@@ -12,7 +12,7 @@ services:
       dockerfile: "Dockerfile${DOCKER_ENV}"
     restart: unless-stopped
     ports:
-      - "8005:80"
+      - "9005:80"
     environment:
       CONTAINER_ROLE: app
 #      REDIS_PORT: 6379
