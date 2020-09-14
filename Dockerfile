@@ -29,8 +29,7 @@ FROM node:latest as frontend
 RUN mkdir -p /app/public
 
 COPY package.json webpack.mix.js package-lock.json /app/
-COPY resources/js/ /app/resources/js/
-COPY resources/sass/ /app/resources/sass/
+COPY resources/ /app/resources/
 
 WORKDIR /app
 
@@ -49,7 +48,6 @@ RUN set -ex; \
   apt-get install -y --no-install-recommends \
     vim \
     libonig-dev\
-    ffmpeg \
   ; \
   docker-php-ext-install -j "$(nproc)" \
     mbstring \
@@ -69,6 +67,7 @@ COPY --from=frontend /app/mix-manifest.json /var/www/html/mix-manifest.json
 
 COPY start.sh /usr/local/bin/start
 
+WORKDIR /var/www/html/
 RUN chown -R www-data:www-data storage bootstrap/cache \
   && chmod -R ug+rwx storage bootstrap/cache \
   && chmod u+x /usr/local/bin/start

@@ -3,7 +3,7 @@ services:
   # https://www.digitalocean.com/community/tutorials/how-to-set-up-laravel-nginx-and-mysql-with-docker-compose
   #PHP Service
   app:
-    image: guoxiangke/lms
+#    image: guoxiangke/lms
     links:
       - db:mysql
 #      - redis
