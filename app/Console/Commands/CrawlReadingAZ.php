@@ -16,7 +16,7 @@ class CrawlReadingAZ extends Command
      *
      * @var string
      */
-    protected $signature = 'craw:readingAZ';
+    protected $signature = 'crawl:readingAZ';
 
     /**
      * The console command description.
@@ -86,6 +86,12 @@ class CrawlReadingAZ extends Command
     {
         $logPath = "ReadingAZ/raz.log";
         $jsonPath = "ReadingAZ/raz.json";
+        if(!Storage::exists($logPath)){
+            Storage::put($jsonPath, "===Log begin===");
+        }
+        if(!Storage::exists($jsonPath)){
+            Storage::put($jsonPath, "{}");
+        }
         try {
         // $('.categoryList li').each(function(){
         // console.log(

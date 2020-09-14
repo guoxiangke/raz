@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9937e0a9-8ae8-447b-92d9-7c58b29992c6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/start.sh" beforeDir="false" afterPath="$PROJECT_DIR$/start.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/CrawlReadingAZ.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/CrawlReadingAZ.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +172,7 @@
       <option name="presentableId" value="Default" />
       <updated>1599714193783</updated>
       <workItem from="1599714196253" duration="31295000" />
-      <workItem from="1599855396311" duration="7932000" />
+      <workItem from="1599855396311" duration="8401000" />
     </task>
     <servers />
   </component>
