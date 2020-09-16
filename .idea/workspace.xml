@@ -4,6 +4,7 @@
     <list default="true" id="9937e0a9-8ae8-447b-92d9-7c58b29992c6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Console/Commands/CrawlReadingAZ.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/CrawlReadingAZ.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +172,7 @@
       <option name="presentableId" value="Default" />
       <updated>1599714193783</updated>
       <workItem from="1599714196253" duration="31295000" />
-      <workItem from="1599855396311" duration="8821000" />
+      <workItem from="1599855396311" duration="19910000" />
     </task>
     <servers />
   </component>
