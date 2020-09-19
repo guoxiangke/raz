@@ -32,21 +32,23 @@ class CrawlReadingAZ extends Command
      */
     public function __construct()
     {
-//        $levels = ['aa','z1','z2'];
-//        foreach ($levels as $level){
-//            $this->mkdir($level);
-//        }
-//        for($i=97;$i<97+26;$i++){
-//            $this->mkdir(chr($i));
-//        }
+        $levels = ['aa','z1','z2'];
+        foreach ($levels as $level){
+            $this->mkdir($level);
+        }
+        for($i=97;$i<97+26;$i++){
+            $this->mkdir(chr($i));
+        }
         parent::__construct();
     }
 
     private function mkdir($level){
 
-        $path = "ReadingAZ/Slider/$level";
-        Storage::makeDirectory($path);
+//        $path = "ReadingAZ/Slider/$level";
+//        Storage::makeDirectory($path);
 
+//        $path = "ReadingAZ/WritingResources/$level";
+//        Storage::makeDirectory($path); //  无字书，不要了！
         $path = "ReadingAZ/SingleSidedBook/$level";
         Storage::makeDirectory($path);
 
@@ -59,32 +61,55 @@ class CrawlReadingAZ extends Command
         $path = "ReadingAZ/ReadAndColorBooks/$level";
         Storage::makeDirectory($path);
 
-        $path = "ReadingAZ/WritingResources/$level";
-        Storage::makeDirectory($path);
 
         $path = "ReadingAZ/LessonResources/$level";
         Storage::makeDirectory($path);
 
         $path = "ReadingAZ/Worksheets/$level";
         Storage::makeDirectory($path);
+
+
+        $path = "ReadingAZ/Assessment/$level";
+        Storage::makeDirectory($path);
+
+
     }
 
+    public function getSlide(){
+        //            $path = "ReadingAZ/Slider/$level/$bookId";
+    //            Storage::makeDirectory($path);
 
-    public function page(){
+        // miniBookSlider image
+    //            $pages = [];
+    //            foreach ($dom->find('#miniBookSlider img') as $i => $img){
+    //                $pages[] = $img->getAttribute('src');
+    ////                $filePath = "$path/page-$i.jpg";
+    ////                if(!Storage::exists($filePath)){
+    ////                    try {
+    ////                        Log::info("{$id}: downloading $i");
+    ////                        Storage::put($filePath, file_get_contents($img->getAttribute('src')));
+    ////                    }catch (\Exception $e){
+    ////                        Log::warning("miniBookSlider Exception:  {$id}  $i $img->getAttribute('src') {$e->getMessage()}");
+    ////                    }
+    ////
+    ////                }
+    //            }
+    //            $id = $bookId;
+    //            $data = compact('id','title','count','pages');
+    //            Log::info("{$id}: {$pageCount} pages downloaded");
+    }
+    public function splitToJson(){
 
         $path = "ReadingAZ/jsons/";
         Storage::makeDirectory($path);
 
-        $jsonPath = "ReadingAZ/raz.all.json";
+        $jsonPath = "ReadingAZ/raz-0919.json";
         $json = json_decode(Storage::get($jsonPath),1);
 
         foreach ($json as $key => $item) {
             $jsonPath = "ReadingAZ/jsons/{$key}.json";
             Storage::put($jsonPath, json_encode($item));
         }
-
-
-//        Log::info("Finished Book: {$bookId}");
     }
     /**
      * Execute the console command.
@@ -93,8 +118,7 @@ class CrawlReadingAZ extends Command
      */
     public function handle()
     {
-
-//        $this->page();
+//        $this->splitToJson();
 //        return 0;
 
 //        $cookieStr = $this->ask('copy your cookies here');
@@ -105,11 +129,11 @@ class CrawlReadingAZ extends Command
 //            $cookies[trim($cookieArray[0])] = $cookieArray[1];
 //        }
 
-        $jsonPath = "ReadingAZ/raz-0919.json";
+        $jsonPath = "ReadingAZ/raz-0919-2.json";
         if(!Storage::exists($jsonPath)){
             Storage::put($jsonPath, "{}");
         }
-//        try {
+
         // $('.categoryList li').each(function(){
         // console.log(
         //  $(this).find('.title').text(), //title
@@ -141,28 +165,8 @@ class CrawlReadingAZ extends Command
             $level = strtolower(trim($dom->find('#levelBarNew a.active',0)->text()));
 
             // download miniBookSlider
-//            //todo Storage::makeDirectory in public folder : https://stackoverflow.com/questions/42624989/storagemakedirectory-in-public-folder
-//            $path = "ReadingAZ/Slider/$level/$bookId";
-//            Storage::makeDirectory($path);
+            //todo Storage::makeDirectory in public folder : https://stackoverflow.com/questions/42624989/storagemakedirectory-in-public-folder
 
-            // miniBookSlider image
-//            $pages = [];
-//            foreach ($dom->find('#miniBookSlider img') as $i => $img){
-//                $pages[] = $img->getAttribute('src');
-////                $filePath = "$path/page-$i.jpg";
-////                if(!Storage::exists($filePath)){
-////                    try {
-////                        Log::info("{$bookId}: downloading $i");
-////                        Storage::put($filePath, file_get_contents($img->getAttribute('src')));
-////                    }catch (\Exception $e){
-////                        Log::warning("miniBookSlider Exception:  {$bookId}  $i $img->getAttribute('src') {$e->getMessage()}");
-////                    }
-////
-////                }
-//            }
-//            $id = $bookId;
-//            $data = compact('id','title','count','pages');
-//            Log::info("{$bookId}: {$pageCount} pages downloaded");
             $meta = []; // 8 marginL marginT0
             foreach ($dom->find('p.marginL.marginT0') as $item){
                 $tmp = trim(str_replace('&nbsp;',' ', $item->innerText()));
@@ -177,161 +181,154 @@ class CrawlReadingAZ extends Command
             }
 
 
-            $data = compact('id','level','title','subtle','description','count','from','meta', 'pdf');
-            $json[$id] = $data;
-            Storage::put($jsonPath, json_encode($json));
-            Log::info("Finished Book: {$id}");
-
-//            if(preg_match($pattern, $pdfString,$matchs)){
-//                $pdfUri = $matchs[1];
-//                $pdfArray = explode('/', $pdfUri);
-//                $pdfName = str_replace("_clr_ds.pdf",'', array_pop($pdfArray)) ;
-//
-//                // Single-Sided Book
-//
-//                $pdf = "https://cf.content.readinga-z.com/pdfs/levels/$level/{$pdfName}_clr.pdf";
-//                $filePath = "ReadingAZ/SingleSidedBook/$level/{$bookId}_clr.pdf";
-//                Log::info("Single-Sided Book: {$bookId} Downloading");
-//                if(!Storage::exists($filePath)){
-//                    try {
-//                        Storage::put($filePath, file_get_contents($pdf));
-//                        Log::info("Single-Sided Book: {$bookId} Downloaded");
-//                    }catch (\Exception $e){
-//                        $url = "https://www.readinga-z.com/members/levels/$level/{$pdfName}_clr.pdf";
+            try {
+                // Single-Sided Book
+                $link = "https://cf.content.readinga-z.com/pdfs/levels/$level/{$pdf}_clr.pdf";
+                $filePath = "ReadingAZ/SingleSidedBook/$level/{$id}_clr.pdf";
+                Log::info("Single-Sided Book: {$id} Downloading");
+                if(!Storage::exists($filePath)){
+                    try {
+                        Storage::put($filePath, file_get_contents($link));
+                        Log::info("Single-Sided Book: {$id} Downloaded");
+                    }catch (\Exception $e){
+                        Log::error("No Single-Sided Book: {$id}");
+//                        $url = "https://www.readinga-z.com/members/levels/$level/{$pdf}_clr.pdf";
 //                        $response = Http::withCookies($this->cookie,'www.readinga-z.com')->sink(storage_path("app/$filePath"))->get($url);
 //                        if($response->status() !== 200 ){
-//                            Log::warning("No Single-Sided Book: {$bookId}  wget -O $filePath $pdf");
+//                            Log::warning("No Single-Sided Book: {$id}  wget -O $filePath $pdf");
 //                        }
-//                    }
-//                }else{
-//                    Log::info("Single-Sided Book: {$bookId} exists");
-//                }
-//
-//                // Double-Sided Book PDF
-//                $pdf = "https://cf.content.readinga-z.com/pdfs/levels/$level/{$pdfName}_clr_ds.pdf";
-//                $filePath = "ReadingAZ/DoubleSidedBook/$level/{$bookId}_clr_ds.pdf";
-//                Log::info("Double-Sided Book: {$bookId} Downloading");
-//                if(!Storage::exists($filePath)){
-//                    try {
-//                        Storage::put($filePath, file_get_contents($pdf));
-//                        Log::info("Double-Sided Book: {$bookId} Downloaded");
-//                    }catch (\Exception $e){
-//                        // https://www.readinga-z.com/site_and_dist/levels/aa_ds/raz_laa27_big_clr_ds.pdf
-//                        $url = $dom->find('a.pdf',2)->getAttribute('require-teacher-login') ; //Book Resources
-//                        $url = str_replace('{pageAfterLogin: \'','',$url);
-//                        $url = str_replace('\'}','',$url);
-//                        $url = "https://www.readinga-z.com{$url}";
-//                        if($url){
-//                            Log::info("Double-Sided Book: {$bookId} Downloading with cookie: $url");
-//                            $response = Http::withCookies($cookies,'www.readinga-z.com')->sink(storage_path("app/$filePath"))->get($url);
-//                            if($response->status() !== 200 ){
-//                                Log::error("Double-Sided Book: {$bookId}  wget -O $filePath $pdf");
-//                            }
-//                        }
-//                    }
-//                }else{
-//                    Log::info("Double-Sided Book: {$bookId} exists");
-//                }
-//
-//                // Fold Only Double-Sided BookPDF
-//                // Pocketbook PDF
-//                $pdf = "https://cf.content.readinga-z.com/pdfsite/pocket_books/$level/{$pdfName}_pb.pdf";
-//                $filePath = "ReadingAZ/Pocketbook/$level/{$bookId}_pb.pdf";
-//                Log::info("Pocketbook Book: {$bookId} Downloading");
-//                if(!Storage::exists($filePath)){
-//                    try {
-//                        Storage::put($filePath, file_get_contents($pdf));
-//                        Log::info("Pocketbook Book: {$bookId} Downloaded");
-//                    }catch (\Exception $e){
-//                        Log::warning("Pocketbook Book: {$bookId}  wget -O $filePath $pdf");
-//                    }
-//                }
-//
-//                // Read and Color Books : Single-Sided Book
-//                $pdf = "https://cf.content.readinga-z.com/pdfs/levels/{$level}/{$pdfName}.pdf";
-//                $filePath = "ReadingAZ/ReadAndColorBooks/$level/{$bookId}.pdf";
-//                Log::info("Read and Color Book: {$bookId} Downloading");
-//                if(!Storage::exists($filePath)){
-//                    try {
-//                        Storage::put($filePath, file_get_contents($pdf));
-//                        Log::info("Read and Color Book: {$bookId} Downloaded");
-//                    }catch (\Exception $e){
-//                        Log::warning("Read and Color Book: {$bookId} wget -O $filePath $pdf");
-//                    }
-//
-//                }
-//
+                    }
+                }
+
+                // Double-Sided Book PDF
+                $link = "https://cf.content.readinga-z.com/pdfs/levels/$level/{$pdf}_clr_ds.pdf";
+                $filePath = "ReadingAZ/DoubleSidedBook/$level/{$id}_clr_ds.pdf";
+                Log::info("Double-Sided Book: {$id} Downloading");
+                if(!Storage::exists($filePath)){
+                    try {
+                        Storage::put($filePath, file_get_contents($link));
+                        Log::info("Double-Sided Book: {$id} Downloaded");
+                    }catch (\Exception $e){
+                        // https://www.readinga-z.com/site_and_dist/levels/aa_ds/raz_laa27_big_clr_ds.pdf
+                        Log::error("No Double-Sided Book: {$id}");
+                    }
+                }
+
+                // Fold Only Double-Sided BookPDF
+                // Pocketbook PDF
+                $link = "https://cf.content.readinga-z.com/pdfsite/pocket_books/$level/{$pdf}_pb.pdf";
+                $filePath = "ReadingAZ/Pocketbook/$level/{$id}_pb.pdf";
+                Log::info("Pocketbook Book: {$id} Downloading");
+                if(!Storage::exists($filePath)){
+                    try {
+                        Storage::put($filePath, file_get_contents($link));
+                        Log::info("Pocketbook Book: {$id} Downloaded");
+                    }catch (\Exception $e){
+                        Log::error("No Pocketbook Book: {$id}");
+                    }
+                }
+
+                // Read and Color Books : Single-Sided Book
+                $link = "https://cf.content.readinga-z.com/pdfs/levels/{$level}/{$pdf}.pdf";
+                $filePath = "ReadingAZ/ReadAndColorBooks/$level/{$id}.pdf";
+                Log::info("Read and Color Book: {$id} Downloading");
+                if(!Storage::exists($filePath)){
+                    try {
+                        Storage::put($filePath, file_get_contents($link));
+                        Log::info("Read and Color Book: {$id} Downloaded");
+                    }catch (\Exception $e){
+                        Log::error("No Read and Color Book: {$id}");
+                    }
+
+                }
+
 //                // Writing Resources
 //                $pdfString = $dom->find('.list-arrow .inlineBlock.padR a.pdf',0)->getAttribute('require-teacher-login') ; //Book Resources
 //                if(preg_match($pattern, $pdfString,$matchs)){
 //                    $tmpArray= explode('/',$matchs[1]);
-//                    $pdf = "https://cf.content.readinga-z.com/pdfsite/wordless_books/{$level}/{$tmpArray[count($tmpArray)-1]}";
-//                    $filePath = "ReadingAZ/WritingResources/$level/{$bookId}.pdf";
-//                    Log::info("Writing Resources: {$bookId} Downloading");
+//                    $link = "https://cf.content.readinga-z.com/pdfsite/wordless_books/{$level}/{$tmpArray[count($tmpArray)-1]}";
+//                    $filePath = "ReadingAZ/WritingResources/$level/{$id}.pdf";
+//                    Log::info("Writing Resources: {$id} Downloading: $link");
 //                    if(!Storage::exists($filePath)){
 //                        try {
-//                            Storage::put($filePath, file_get_contents($pdf));
-//                            Log::info("Writing Resources: {$bookId} Downloaded");
+//                            Storage::put($filePath, file_get_contents($link));
+//                            Log::info("Writing Resources: {$id} Downloaded");
 //                        }catch (\Exception $e){
-//                            Log::warning("Writing Resources: {$bookId}  wget -O $filePath $pdf");
+//                            Log::error("No Writing Resources: {$id}");
 //                        }
 //                    }
-//
 //                }
-//                // Lesson Resources
-//                $pdf = "https://cf.content.readinga-z.com/pdfsite/{$bookId}/{$pdfName}_lblp.pdf";
-//                $filePath = "ReadingAZ/LessonResources/$level/{$bookId}_lblp.pdf";
-//                Log::info("Lesson Resources: {$bookId} Downloading");
+                // Lesson Resources
+                $link = "https://cf.content.readinga-z.com/pdfsite/{$id}/{$pdf}_lblp.pdf";
+                $filePath = "ReadingAZ/LessonResources/$level/{$id}_lblp.pdf";
+                Log::info("Lesson Resources: {$id} Downloading");
+                if(!Storage::exists($filePath)){
+                    try {
+                        Storage::put($filePath, file_get_contents($link));
+                        Log::info("Lesson Resources: {$id} Downloaded");
+                    }catch (\Exception $e){
+                        $link = "https://cf.content.readinga-z.com/pdfsite/lesson_plans/{$level}/{$pdf}_lp.pdf";
+                        try {
+                            Storage::put($filePath, file_get_contents($link));
+                            Log::info("Lesson Resources: {$id} Downloaded by 2");
+                        }catch (\Exception $e){
+                            $link = "https://cf.content.readinga-z.com/pdfsite/{$id}/{$pdf}_lp.pdf";
+                            try {
+                                Storage::put($filePath, file_get_contents($link));
+                                Log::info("Lesson Resources: {$id} Downloaded by 3");
+                            }catch (\Exception $e){
+                                Log::error("No Lesson Resources: {$id}");
+                            }
+                        }
+                    }
+                }
+
+                // Teach the Objectives // All Worksheets
+                $link = "https://cf.content.readinga-z.com/pdfsite/{$id}/{$pdf}_wksh.pdf";
+                $filePath = "ReadingAZ/Worksheets/$level/{$id}_wksh.pdf";
+                Log::info("All Worksheets: {$id} Downloading");
+                if(!Storage::exists($filePath)){
+                    try {
+                        Storage::put($filePath, file_get_contents($link));
+                    }catch (\Exception $e){
+                        $link = "https://cf.content.readinga-z.com/pdfsite/worksheets/$level/{$pdf}_wksh.pdf";
+                        try {
+                            Storage::put($filePath, file_get_contents($link));
+                        }catch (\Exception $e){
+                            $link = "https://cf.content.readinga-z.com/pdfs/worksheets/$level/{$pdf}_wksh.pdf";
+                            try {
+                                Storage::put($filePath, file_get_contents($link));
+                            }catch (\Exception $e){
+                                Log::error("No All Worksheets: {$id}");
+                            }
+                        }
+                    }
+                }
+
+//                // Assessment
+//                $link = "https://cf.content.readinga-z.com/pdfsite/{$id}/{$pdf}_??.pdf";
+//                $filePath = "ReadingAZ/Assessment/$level/{$id}_??.pdf";
+//                Log::info("Assessment: {$id} Downloading");
 //                if(!Storage::exists($filePath)){
 //                    try {
-//                        Storage::put($filePath, file_get_contents($pdf));
-//                        Log::info("Lesson Resources: {$bookId} Downloaded");
+//                        Storage::put($filePath, file_get_contents($link));
 //                    }catch (\Exception $e){
-//                        $pdf = "https://cf.content.readinga-z.com/pdfsite/lesson_plans/{$level}/{$pdfName}_lp.pdf";
-//                        try {
-//                            Storage::put($filePath, file_get_contents($pdf));
-//                            Log::info("Lesson Resources: {$bookId} Downloaded by 2");
-//                        }catch (\Exception $e){
-//                            $pdf = "https://cf.content.readinga-z.com/pdfsite/{$bookId}/{$pdfName}_lp.pdf";
-//                            try {
-//                                Storage::put($filePath, file_get_contents($pdf));
-//                                Log::info("Lesson Resources: {$bookId} Downloaded by 3");
-//                            }catch (\Exception $e){
-//                                Log::warning("Lesson Resources: {$bookId} ");
-//                            }
-//                        }
+//                        Log::error("No Assessment: {$id}");
 //                    }
 //                }
-//
-//                // Teach the Objectives // All Worksheets
-//                $pdf = "https://cf.content.readinga-z.com/pdfsite/{$bookId}/{$pdfName}_wksh.pdf";
-//                $filePath = "ReadingAZ/Worksheets/$level/{$bookId}_wksh.pdf";
-//                Log::info("All Worksheets: {$bookId} Downloading");
-//                if(!Storage::exists($filePath)){
-//                    try {
-//                        Storage::put($filePath, file_get_contents($pdf));
-//                    }catch (\Exception $e){
-//                        $pdf = "https://cf.content.readinga-z.com/pdfsite/worksheets/$level/{$pdfName}_wksh.pdf";
-//                        try {
-//                            Storage::put($filePath, file_get_contents($pdf));
-//                            Log::info("All Worksheets: {$bookId} Downloaded");
-//                        }catch (\Exception $e){
-//                            $pdf = "https://cf.content.readinga-z.com/pdfs/worksheets/$level/{$pdfName}_wksh.pdf";
-//                            try {
-//                                Storage::put($filePath, file_get_contents($pdf));
-//                                Log::info("All Worksheets: {$bookId} Downloaded by 2");
-//                            }catch (\Exception $e){
-//                                Log::warning("All Worksheets: {$bookId} {$e->getMessage()}");
-//                            }
-//                        }
-//                    }
-//                }
-//            }
+
+
+
+            }catch (\Exception $e){
+                Log::error("Big Exception on book: {$id} {$e->getMessage()}");
+            }
+
+            $data = compact('id','level','title','subtle','description','count','from','meta', 'pdf');
+            $json[$id] = $data;
+            Storage::put($jsonPath, json_encode($json));
+            Log::info("Finished Book: {$id}");
         }
 
-//        }catch (\Exception $e){
-//            Log::error("Big Exception: {$e->getMessage()}");
-//        }
         return 0;
     }
 }
