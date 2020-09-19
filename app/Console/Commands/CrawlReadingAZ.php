@@ -182,23 +182,23 @@ class CrawlReadingAZ extends Command
 
 
             try {
-                // Single-Sided Book
-                $link = "https://cf.content.readinga-z.com/pdfs/levels/$level/{$pdf}_clr.pdf";
-                $filePath = "ReadingAZ/SingleSidedBook/$level/{$id}_clr.pdf";
-                Log::info("Single-Sided Book: {$id} Downloading");
-                if(!Storage::exists($filePath)){
-                    try {
-                        Storage::put($filePath, file_get_contents($link));
-                        Log::info("Single-Sided Book: {$id} Downloaded");
-                    }catch (\Exception $e){
-                        Log::error("No Single-Sided Book: {$id}");
-//                        $url = "https://www.readinga-z.com/members/levels/$level/{$pdf}_clr.pdf";
-//                        $response = Http::withCookies($this->cookie,'www.readinga-z.com')->sink(storage_path("app/$filePath"))->get($url);
-//                        if($response->status() !== 200 ){
-//                            Log::warning("No Single-Sided Book: {$id}  wget -O $filePath $pdf");
-//                        }
-                    }
-                }
+//                // Single-Sided Book
+//                $link = "https://cf.content.readinga-z.com/pdfs/levels/$level/{$pdf}_clr.pdf";
+//                $filePath = "ReadingAZ/SingleSidedBook/$level/{$id}_clr.pdf";
+//                Log::info("Single-Sided Book: {$id} Downloading");
+//                if(!Storage::exists($filePath)){
+//                    try {
+//                        Storage::put($filePath, file_get_contents($link));
+//                        Log::info("Single-Sided Book: {$id} Downloaded");
+//                    }catch (\Exception $e){
+//                        Log::error("No Single-Sided Book: {$id}");
+////                        $url = "https://www.readinga-z.com/members/levels/$level/{$pdf}_clr.pdf";
+////                        $response = Http::withCookies($this->cookie,'www.readinga-z.com')->sink(storage_path("app/$filePath"))->get($url);
+////                        if($response->status() !== 200 ){
+////                            Log::warning("No Single-Sided Book: {$id}  wget -O $filePath $pdf");
+////                        }
+//                    }
+//                }
 
                 // Double-Sided Book PDF
                 $link = "https://cf.content.readinga-z.com/pdfs/levels/$level/{$pdf}_clr_ds.pdf";
@@ -214,33 +214,33 @@ class CrawlReadingAZ extends Command
                     }
                 }
 
-                // Fold Only Double-Sided BookPDF
-                // Pocketbook PDF
-                $link = "https://cf.content.readinga-z.com/pdfsite/pocket_books/$level/{$pdf}_pb.pdf";
-                $filePath = "ReadingAZ/Pocketbook/$level/{$id}_pb.pdf";
-                Log::info("Pocketbook Book: {$id} Downloading");
-                if(!Storage::exists($filePath)){
-                    try {
-                        Storage::put($filePath, file_get_contents($link));
-                        Log::info("Pocketbook Book: {$id} Downloaded");
-                    }catch (\Exception $e){
-                        Log::error("No Pocketbook Book: {$id}");
-                    }
-                }
-
-                // Read and Color Books : Single-Sided Book
-                $link = "https://cf.content.readinga-z.com/pdfs/levels/{$level}/{$pdf}.pdf";
-                $filePath = "ReadingAZ/ReadAndColorBooks/$level/{$id}.pdf";
-                Log::info("Read and Color Book: {$id} Downloading");
-                if(!Storage::exists($filePath)){
-                    try {
-                        Storage::put($filePath, file_get_contents($link));
-                        Log::info("Read and Color Book: {$id} Downloaded");
-                    }catch (\Exception $e){
-                        Log::error("No Read and Color Book: {$id}");
-                    }
-
-                }
+//                // Fold Only Double-Sided BookPDF
+//                // Pocketbook PDF
+//                $link = "https://cf.content.readinga-z.com/pdfsite/pocket_books/$level/{$pdf}_pb.pdf";
+//                $filePath = "ReadingAZ/Pocketbook/$level/{$id}_pb.pdf";
+//                Log::info("Pocketbook Book: {$id} Downloading");
+//                if(!Storage::exists($filePath)){
+//                    try {
+//                        Storage::put($filePath, file_get_contents($link));
+//                        Log::info("Pocketbook Book: {$id} Downloaded");
+//                    }catch (\Exception $e){
+//                        Log::error("No Pocketbook Book: {$id}");
+//                    }
+//                }
+//
+//                // Read and Color Books : Single-Sided Book
+//                $link = "https://cf.content.readinga-z.com/pdfs/levels/{$level}/{$pdf}.pdf";
+//                $filePath = "ReadingAZ/ReadAndColorBooks/$level/{$id}.pdf";
+//                Log::info("Read and Color Book: {$id} Downloading");
+//                if(!Storage::exists($filePath)){
+//                    try {
+//                        Storage::put($filePath, file_get_contents($link));
+//                        Log::info("Read and Color Book: {$id} Downloaded");
+//                    }catch (\Exception $e){
+//                        Log::error("No Read and Color Book: {$id}");
+//                    }
+//
+//                }
 
 //                // Writing Resources
 //                $pdfString = $dom->find('.list-arrow .inlineBlock.padR a.pdf',0)->getAttribute('require-teacher-login') ; //Book Resources
