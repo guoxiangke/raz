@@ -4,7 +4,6 @@
     <list default="true" id="9937e0a9-8ae8-447b-92d9-7c58b29992c6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Console/Commands/CrawlReadingAZ.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/CrawlReadingAZ.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,6 +142,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -172,7 +172,7 @@
       <option name="presentableId" value="Default" />
       <updated>1599714193783</updated>
       <workItem from="1599714196253" duration="31295000" />
-      <workItem from="1599855396311" duration="19910000" />
+      <workItem from="1599855396311" duration="29670000" />
     </task>
     <servers />
   </component>
@@ -184,6 +184,10 @@
       <screen x="0" y="23" width="1488" height="937" />
     </state>
     <state x="396" y="30" key="SettingsEditor/0.23.1488.937@0.23.1488.937" timestamp="1599806110583" />
+    <state x="426" y="255" width="630" height="472" key="find.popup" timestamp="1600356131642">
+      <screen x="0" y="23" width="1490" height="937" />
+    </state>
+    <state x="426" y="255" width="630" height="472" key="find.popup/0.23.1490.937@0.23.1490.937" timestamp="1600356131642" />
     <state x="533" y="268" width="670" height="676" key="search.everywhere.popup" timestamp="1599751072121">
       <screen x="0" y="23" width="1736" height="1097" />
     </state>
