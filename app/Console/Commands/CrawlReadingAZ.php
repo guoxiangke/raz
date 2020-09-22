@@ -104,7 +104,7 @@ class CrawlReadingAZ extends Command
         $path = "RAZ/jsons/";
         Storage::makeDirectory($path);
 
-        $jsonPath = "RAZ/raz-0919.json";
+        $jsonPath = "RAZ/raz-20092215.json";
         $json = json_decode(Storage::get($jsonPath),1);
 
         foreach ($json as $key => $item) {
@@ -227,14 +227,14 @@ class CrawlReadingAZ extends Command
                 $miPath = $this->getPdf($pdfString);
                 $link = $this->mi .'/'. $miPath;
                 $filePath = "RAZ/DoubleSidedBook/$level/{$id}.pdf";
-                if(!Storage::exists($filePath)){
+//                if(!Storage::exists($filePath)){
                     try {
                         Storage::put($filePath, file_get_contents($link));
                         $mis['clr'] = $miPath;
                     }catch (\Exception $e){
                         Log::error("No Double-Sided Book: {$id}");
                     }
-                }
+//                }
 
                 // Lesson Resources
                 // 174
@@ -248,7 +248,7 @@ class CrawlReadingAZ extends Command
                 // https://cf.content.readinga-z.com/pdfsite/lesson_plans/aa/raz_laa27_big_lp.pdf
                 $link = "{$this->mi}/{$pdfName}";
                 $filePath = "RAZ/LessonResources/$level/{$id}.pdf";
-                if(!Storage::exists($filePath)){
+//                if(!Storage::exists($filePath)){
                     try {
                         Storage::put($filePath, file_get_contents($link));
                         $mis['lblp'] = $pdfName;
@@ -256,7 +256,7 @@ class CrawlReadingAZ extends Command
                         // $link = "https://cf.content.readinga-z.com/pdfsite/lesson_plans/{$level}/{$pdfName}";
                         Log::error("No Lesson Resources: {$id}");
                     }
-                }
+//                }
 
                 // All Worksheets  _wksh
                 // f=site_and_dist/worksheets/members/serials/carlos/carloscountskittens_wksh.pdf
@@ -265,14 +265,14 @@ class CrawlReadingAZ extends Command
 //                $link = "https://cf.content.readinga-z.com/pdfsite/{$id}/{$pdfName}";
                 $link = "{$this->mi}/{$pdfName}";
                 $filePath = "RAZ/Worksheets/$level/{$id}.pdf";
-                if(!Storage::exists($filePath)){
+//                if(!Storage::exists($filePath)){
                     try {
                         Storage::put($filePath, file_get_contents($link));
                     }catch (\Exception $e){
 //                        $link = "https://cf.content.readinga-z.com/pdfsite/worksheets/$level/{$pdfName}";
                         Log::error("No All Worksheets: {$id}");
                     }
-                }
+//                }
 
                 // Comprehension Quiz
                 // /content/books/1406/projectable/large/1/quizzes/page-1.jpg
@@ -282,25 +282,25 @@ class CrawlReadingAZ extends Command
                     $pdfName = $pdfs[$length-1];
                     $link = "{$this->mi}/{$pdfName}";
                     $filePath = "RAZ/Quiz/$level/{$id}.pdf";
-                    if(!Storage::exists($filePath)){
+//                    if(!Storage::exists($filePath)){
                         try {
                             Storage::put($filePath, file_get_contents($link));
                         }catch (\Exception $e){
                             Log::error("No Quiz: {$id}");
                         }
-                    }
+//                    }
 
 
                     $pdfName = $pdfs[$length-2];
                     $link = "{$this->mi}/{$pdfName}";
                     $filePath = "RAZ/Discuss/$level/{$id}.pdf";
-                    if(!Storage::exists($filePath)){
+//                    if(!Storage::exists($filePath)){
                         try {
                             Storage::put($filePath, file_get_contents($link));
                         }catch (\Exception $e){
                             Log::error("No Discuss: {$id}");
                         }
-                    }
+//                    }
                 }
 
             }catch (\Exception $e){
